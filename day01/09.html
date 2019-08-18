@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>键盘事件</title>
+	<script src="js/vue.js"></script>
+	<script>
+		/**
+			自定义键位别名
+		**/
+		Vue.config.keyCodes = {
+			a:65,
+			f1:112
+		}
+
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+
+				},
+				methods:{
+					show(e){
+						console.log(e.keyCode);
+						if(e.keyCode == 13){
+							console.log('你按了回车');
+						}
+
+					},
+					print(){
+						console.log('回车');
+					},
+					key(){
+						console.log('可行');
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<!-- 键盘事件：@keydown @keypress @keyup -->
+		用户名：<input type="text" @keydown="show($event)">
+
+		<!-- 简化键盘判断写法 -->
+		用户名：<input type="text" @keydown.13="print()">
+		用户名：<input type="text" @keydown.enter="print()">
+
+		<!-- 几乎键盘上所有按键都有，fn没有，苹果的command没有 -->
+		用户名：<input type="text" @keydown.a="key()">
+
+		<!-- 只触发一次 -->
+		<button @click.once="print()">触发一次</button>
+	</div>
+</body>
+</html>

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Hello World</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			//配置是否允许vue-devtooles检查代码，方便调试，生产环境中需要设置为false
+			Vue.config.devtools = false
+			Vue.config.productionTip=false;//阻止vue启动时生成生产消息
+			new Vue({
+				el:'#gyz',
+				data:{
+					msg:'Hello World'
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		{{msg}}
+	</div>
+</body>
+</html>

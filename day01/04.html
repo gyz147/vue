@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>常用指令：v-on</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					arr:[1,2,3,4,5]
+				},
+				methods:{
+					show:function(){
+						console.log('show方法');
+					},
+					add(){
+						this.arr.push(666);
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<button v-on:click="show()">点我</button>
+		<button v-on:click="add()">向数组中添加元素</button>
+		{{arr}}
+	</div>
+</body>
+</html>

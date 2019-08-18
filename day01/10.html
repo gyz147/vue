@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>属性绑定和属性简写</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					url:'http://b-ssl.duitang.com/uploads/item/201707/19/20170719211350_4PnBt.jpeg',
+					w:'200px',
+					h:'100px'
+				},
+				methods:{
+					
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<!-- <img src="{{url}}"> -->
+		<img v-bind:src="url">
+
+		<!-- 属性简写 -->
+		<img :src="url" :width="w" :height="h">
+	</div>
+</body>
+</html>

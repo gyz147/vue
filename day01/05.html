@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>常用指令：v-show v-if</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					flag:true
+				},
+				methods:{
+					change(){
+						this.flag=!this.flag;
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<button v-on:click = "change()">按钮1</button>
+		<button v-on:click = "flag = !flag">按钮2</button>
+		<div style="width: 100px;height: 100px;background-color: red" v-show="flag">Demo Div</div>
+	</div>
+</body>
+</html>

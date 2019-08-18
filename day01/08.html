@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件冒泡和默认行为</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+
+				},
+				methods:{
+					write(){
+						console.log(333);
+					},
+					print(){
+						console.log(222);
+					},
+					show(){
+						console.log(111);
+					},
+					study(){
+						console.log(444);
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<div @click="write()">
+			<p @click="print()">
+				<button @click="show()">按钮</button>
+				<button @click.stop="show()">阻止事件冒泡</button>
+				<a href="#" @click.prevent.stop="study()">阻止事件冒泡和默认事件</a>
+			</p>
+		</div>
+		<a href="#" @click.prevent.stop="study()">阻止默认事件</a>
+	</div>
+</body>
+</html>

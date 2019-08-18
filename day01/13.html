@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义过滤器</title>
+	<script src="js/vue.js"></script>
+	<script>
+		/**
+		*	自定义全局过滤器
+		*/
+		Vue.filter('addZero',function(data){
+			return data<10?'0'+data:data;
+		});
+		Vue.filter('number',function(data,n){
+			return data.toFixed(n);
+		});
+		Vue.filter('date',function(data){
+			let d = new Date(data);
+			return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()+' '+d.getHours()+':'+d.getMinutes()+':'+d.getSeconds();
+		});
+
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					currentTime:Date.now()
+				},
+				filters:{
+					number2:function(data,n){
+						return data.toFixed(n);
+					}
+				}
+			});
+			new Vue({
+				el:'#xyq'
+			});
+		}
+	</script>
+	<style>
+		[v-cloak]{
+			display: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="gyz">
+		<h3 v-cloak>{{18|addZero}}</h3>
+		<h3 v-cloak>{{12.345678|number(3)}}</h3>
+		<h3 v-cloak>{{12.345678|number2(3)}}</h3>
+		<h3 v-cloak>{{currentTime|date}}</h3>
+	</div>
+	<div id="xyq">
+		<h3 v-cloak>{{12.345678|number(3)}}</h3>
+		<!-- gyz的局部过滤器不能用 -->
+		<h3 v-cloak>{{12.345678|number2(3)}}</h3>
+	</div>
+</body>
+</html>

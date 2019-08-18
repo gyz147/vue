@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>class和style属性</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					bb:'aa',
+					dd:'cc',
+					flag:true,
+					hello:{aa:true,cc:this.flag},
+					xx:{color:'blue',fontSize:'30px'},
+					yy:{backgroundColor:'#ccc'}
+				},
+				methods:{
+					
+				}
+			});
+		}
+	</script>
+	<style>
+		.aa{
+			color:red;
+			font-size:20px;
+		}
+		.cc{
+			background-color: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="gyz">
+		<!-- <p class="aa">弓永壮</p> -->
+
+		<!-- vue class属性绑定 -->
+		<!-- 方式一：通过变量形式 -->
+		<p :class="bb">弓永壮</p>
+
+		<!-- 方式二：数组形式，同时引用多个 -->
+		<p :class="[bb,dd]">弓永壮</p>
+
+		<!-- 方式三：json形式，常用！！！ -->
+		<p :class="{aa:true,cc:flag}">弓永壮</p>
+
+		<!-- 方式四：变量引用形式 -->
+		<p :class="hello">弓永壮</p>
+
+		<!-- vue style属性绑定 -->
+		<p :style="[xx,yy]">弓永壮壮</p>
+	</div>
+</body>
+</html>

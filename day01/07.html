@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>事件简写和事件对象</title>
+	<script src="js/vue.js"></script>
+	<script>
+		window.onload=function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					flag:true
+				},
+				methods:{
+					change(){
+						this.flag=!this.flag;
+					},
+					print(e){
+						console.log(e.target.innerHTML);//DOM对象
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<button @click = "change()">按钮1</button>
+		<button v-on:click = "flag = !flag">按钮2</button>
+		<button @click = "print($event)">Clicke Me</button>
+		<div style="width: 100px;height: 100px;background-color: red" v-show="flag">Demo Div</div>
+	</div>
+</body>
+</html>
