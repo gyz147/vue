@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>Vue实例的属性和方法</title>
+	<script src='js/vue.js'></script>
+	
+</head>
+<body>
+	<div id="gyz">
+		{{msg}}
+		<h2 ref="hello">你好</h2>
+		<h2 ref="world">世界</h2>
+		<h2 ref="title">标题：{{name2}}</h2>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:gyz,
+			data:{
+				msg:'welcome to shanghai',
+				name2:'tom'
+			},
+			name:'tom',
+			age:23,
+			show:function(){
+				console.log('show');				
+			}
+		});
+		/**
+		* 属性
+		**/
+		console.log(vm.msg);
+
+		// vm.$el,用来获取vue实例关联的选择器,DOM对象
+		console.log(vm.$el);
+		vm.$el.style.color='red';
+
+		//vm.$data,用来获取数据对象
+		console.log(vm.$data.msg);
+
+		//vm.$options,用来获取选项,一般获取自定义属性
+		console.log(vm.$options.name);
+
+		//vm.$refs,用来获取页面中所有添加ref属性的元素,DOM对象
+		console.log(vm.$refs.hello);
+
+		/**
+		* 方法
+		**/
+		// vm.$mount,实现手动挂载Vue实例
+		// vm.$mount('#gyz');
+		// var vm1 = new Vue({
+		// 	data:{
+		// 		msg:'Hello Wrold'
+		// 	}
+		// }).$mount('#gyz');
+
+		//vm.$destroy,销毁vue实例
+		//vm.$destroy();
+
+		//vm.$nextTick,等DOM更新完后执行回调函数，一般在修改数据之后使用该方法，以便能获取更新后的DOM
+		vm.name2 = '汤姆';
+		//DMO还没更新完,所以下面没获取新的修改完的值;
+		//vue的响应式并不是数据发生改变后DMO立马变了,需要按一定的策略更新DOM，需要时间
+		console.log(vm.$refs.title.textContent);
+		vm.$nextTick(function(){
+			//DOM更新完成后才执行此代码
+			console.log(vm.$refs.title.textContent);
+		});
+	</script>
+</body>
+</html>

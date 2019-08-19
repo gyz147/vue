@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>发送Ajax请求</title>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/vue-resource.min.js"></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					uid:'',
+					user:{}
+				},
+				methods:{
+					send(){
+						axios({
+							method:'get',
+							url:'user.json'
+						}).then(function(resp){
+							console.log(resp.data);
+						}).catch(resp => {
+							console.log("请求失败");
+						});
+					},
+					sendGet(){
+						// axios.get('server.php?name=tom&age=20')
+						axios.get('server.php',{
+							params:{
+								name:'tom',
+								age:20
+							}
+						}).then(resp=>{
+							console.log(resp);
+						}).catch(err=>{
+							console.log(err);
+						});
+					},
+					sendPost(){
+						// axios.get('server.php?name=tom&age=20')
+
+						// axios.post('server.php',{
+						// 	name:'tom',
+						// 	age:20
+						// })
+
+						axios.post('server.php','name=tom&age=20')
+						.then(resp=>{
+							console.log(resp);
+						}).catch(err=>{
+							console.log(err);
+						});
+					},
+					getUserById(uid){
+						axios.get(`https://api.github.com/users/${uid}`)
+						.then(resp=>{
+							// console.log(resp.data);
+							this.user = resp.data;
+						});
+					},
+					sendJsonP(){
+						//https://sug.so.360.cn/suggest?callback=suggest_so&encodein=utf-8&encodeout=utf-8&format=json&fields=word&word=a&huid=11ajtZrUXtPGiY8spOXNwl76NteYn9k0a2F8m%2BqfdXss0%3D&llbq=A5%2CB5%2CC5%2CD5
+						this.$http.jsonp('https://sug.so.360.cn/suggest?encodeout=utf-8',{
+							params:{
+								word:'a'
+							}
+						}).then(resp=>{
+							console.log(resp.data.s);
+						});
+					},
+					sendJsonP2(){
+						//https://www.baidu.com/sugrec?pre=1&p=3&ie=utf-8&json=1&prod=pc&from=pc_web&sugsid=1459,21080,29073,20881,29523,29520,29098,29568,29221,22158&wd=a&req=2&csor=1&cb=jQuery1102007793829942736252_1566194834302&_=1566194834305
+						this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+							params:{
+								wd:'a'
+							},
+							jsonp:'cb'//百度使用的jsonp参数名为cb	
+						}).then(resp=>{
+							console.log(resp.data.s);
+						});
+					}
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id="gyz">
+		<button @click="send()">发送请求</button>
+		<button @click="sendGet()">get方式</button>
+		<button @click="sendPost()">post方式</button>
+		<hr>
+		<br>
+		GithubID <input type="text" id="uid" v-model="uid">
+		<button @click="getUserById(uid)">获取GitHub用户信息</button>
+		<br>
+		姓名：{{user.name}}
+		<br>
+		头像
+		<img :src="user.avatar_url">
+
+		<hr>
+
+		<button @click="sendJsonP">向360搜索发送跨域请求</button>
+		<button @click="sendJsonP2">向百度搜索发送跨域请求</button>
+	</div>
+</body>
+</html>

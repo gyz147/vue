@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>计算属性</title>
+	<script src='js/vue.js'></script>
+	
+</head>
+<body>
+	<div id="gyz">
+		<!-- 1.基本用法 -->
+		<h2>{{msg}}</h2>
+		<h2>{{msg2}}</h2>
+
+		<!-- 对数组进行处理 -->
+		<h2>{{msg.split(" ").reverse().join(" ")}}</h2>
+		<h2>{{reverseMsg}}</h2>
+		<button @click="change()">修改属性</button>
+
+		<!-- 2.计算属性vs方法 -->
+		<h2>{{num}}</h2>
+		<!-- <h2>{{numR}}</h2> -->
+		<h2>{{reduce()}}</h2>
+
+		<!-- 计算属性有缓存机制 -->
+		<!-- <h2>{{numR}}</h2> -->
+		<button onclick="fn()">测试</button>
+
+		<!-- 3.get和set -->
+		<button @click="change2()">修改计算属性</button>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				//普通属性
+				msg:'welcome to shanghai',
+				num:5
+			},
+			computed:{
+				//计算属性
+				msg2:function(){//该函数必须有返回值,一般称为get函数
+					return '上海欢迎你';
+				},
+				reverseMsg:function(){
+					//可以包含逻辑处理操作，同时reversMsg依赖msg
+					return this.msg.split(' ').reverse().join(' ');
+				},
+				numR:{
+					get:function(){
+						console.log(new Date());
+						return this.num-1;
+					},
+					set:function(val){
+						// this.numR = val;
+						this.num = val;
+					}
+				}
+			},
+			methods:{
+				change(){
+					this.msg = 'Hello Mack do a do'
+				},
+				reduce(){
+					console.log(new Date());
+					return this.num-1;
+				},
+				change2(){
+					this.numR = 111
+				},
+			}
+		});
+		function fn(){
+			setInterval(function(){
+				// console.log(vm.numR);
+				console.log(vm.reduce());
+			},1000);
+		}
+	</script>
+</body>
+</html>

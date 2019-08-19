@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>Vue生命周期</title>
+	<script src='js/vue.js'></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					msg:'welcome come to shanghai'
+				},
+				methods:{
+					update(){
+						this.msg = 'welcome come to beijing';
+					},
+					destroy(){
+						this.$destroy();
+					}
+				},
+				beforeCreate(){
+					alert('组件实例刚刚创建，还未进行数据观测和事件配置');
+				},
+				created(){ //常用！！！
+					alert('实例已创建完成，并且已完成数据观测和事件配置');
+				},
+				beforeMount(){
+					alert('模板编译之前，还没有挂载');
+				},
+				mounted(){ //常用！！！
+					alert('模板编译之后，已经挂载，此时才会开始渲染页面，渲染完成后才能看到页面上的数据显示')
+				},
+				beforeUpdate(){
+					alert('组件更新之前');
+				},
+				updated(){
+					alert('组件更新之后');
+				},
+				beforeDestroy(){
+					alert('组件销毁之前');
+				},
+				destroyed(){
+					alert('组件销毁之后');
+				}
+			});
+		}
+	</script>
+</head>
+<body>
+	<div id='gyz'>
+		{{msg}}
+		<br>
+		<button @click="update()">更新数据</button>
+		<button @click="destroy()">销毁实例</button>
+	</div>
+</body>
+</html>

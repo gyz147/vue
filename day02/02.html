@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>百度搜索列表</title>
+	<script src="js/vue.js"></script>
+	<script src="js/axios.min.js"></script>
+	<script src="js/vue-resource.min.js"></script>
+	<script>
+		window.onload = function(){
+			new Vue({
+				el:'#gyz',
+				data:{
+					keyword:'',
+					myData:[],
+					now:-1
+				},
+				methods:{
+					getData(e){
+						if(e.keyCode == 38 || e.keyCode == 40){
+							return;
+						}
+						this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+							params:{
+								wd:this.keyword
+							},
+							jsonp:'cb'//百度使用的jsonp参数名为cb	
+						}).then(resp=>{
+							this.myData = resp.data.s;
+						});
+					},
+					changeDown(){
+						this.now++;
+						if(this.now >= this.myData.length){
+							this.now = -1;
+						}
+						this.keyword = this.myData[this.now];
+					},
+					changeUp(){
+						this.now--;
+						if(this.now <= -1){
+							this.now = this.myData.length;
+						}
+						this.keyword = this.myData[this.now];
+					}
+				}
+			});
+		}
+	</script>
+	<style>
+		.current{
+			background-color: #ccc;
+		}
+	</style>
+</head>
+<body>
+	<div id="gyz">
+		<input type="text" v-model="keyword" @keyup="getData($event)" @keydown.down="changeDown()" @keydown.up.prevent="changeUp()">
+		<ul>
+			<li v-for="(data,index) in myData" :class="{current:index == now}">
+				{{data}}
+			</li>
+		</ul>
+		<p v-show="myData.length == 0">暂无数据</p>
+	</div>
+</body>
+</html>
