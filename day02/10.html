@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>过渡效果</title>
+	<script src='js/vue.js'></script>
+</head>
+<style>
+	/*这里 #gyz p 不生效，原因未知*/
+	p{
+		width: 300px;
+		height: 300px;
+		background-color: red;
+	}
+	.fade-enter-active, .fade-leave-active {
+	  transition: all 3s ease;
+	}
+	.fade-enter-active{
+		opacity: 1;
+		width: 300px;
+		height: 300px;
+	}
+	.fade-leave-active{
+		opacity: 0;
+		width: 100px;
+		height: 100px;
+	}
+	/*需要放最后，放前面不生效*/
+	.fade-enter{
+		opacity: 0;
+		width: 100px;
+		height: 100px;
+	}
+</style>
+<body>
+	<div id="gyz">
+		<button @click = "flag = !flag">显示/隐藏</button>
+		<transition name="fade" 
+			@before-enter = "beforeEnter"
+			@enter = "enter"
+			@after-enter = "afterEnter"
+			@before-leave = "beforeLeave"
+			@leave = "leave"
+			@after-leave = "afterLeave"
+		>
+			<p v-show = "flag">上海</p>
+		</transition>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				flag:false
+			},
+			methods:{
+				beforeEnter(){
+					// alert("动画进入之前");
+				},
+				enter(el){
+					// alert("动画进入");
+					el.style.background='blue';
+				},
+				afterEnter(el){
+					// alert("动画进入之后");
+				},
+				beforeLeave(){
+					// alert("动画离开之前");
+				},
+				leave(el){
+					// alert("动画离开");
+					el.style.background = 'red';
+				},
+				afterLeave(el){
+					// alert("动画离开之后");
+				}
+
+			}
+		});
+	</script>
+</body>
+</html>

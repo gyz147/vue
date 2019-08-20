@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>多元素动画练习</title>
+	<link rel="stylesheet" href="css/animate.css">
+	<script src='js/vue.js'></script>
+</head>
+<style>
+	p{
+		width: 50px;
+		height: 50px;
+		background-color: red;
+		margin: 20px auto;
+	}
+</style>
+<body>
+	<div id="gyz">
+		<input type="text" v-model="name">
+		<transition-group
+			enter-active-class="animated bounceInLeft"
+    		leave-active-class="animated bounceOutRight"
+		>
+			<p v-for="(v,k) in arr2" :key="k" v-show="flag">
+				{{v}}
+			</p>
+		</transition-group>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				name:'',
+				flag:true,
+				arr:['tom','mick','marry','john','mark']
+			},
+			computed:{
+				arr2:function(){
+					let tmp = [];
+					this.arr.forEach(val=>{
+						if(val.includes(this.name)){
+							tmp.push(val);
+						}
+					});
+					return tmp;
+				}
+			}
+		});
+	</script>
+</body>
+</html>

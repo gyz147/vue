@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>自定义指令</title>
+	<script src='js/vue.js'></script>
+</head>
+<body>
+	<div id="gyz">
+		<h3 v-hello>{{msg}}</h3>
+		<button @click="change()">更新数据</button>
+
+		<!-- <h3 v-word:yyy.aaa="name1">{{msg}}</h3> -->
+
+		<!-- <h3 v-wps>{{msg}}</h3> -->
+
+		<input type="text" v-model="msg" v-focus>
+	</div>
+	<script>
+		/**
+		* 自定义全局指定
+		* 注：使用指令时必须加v-前缀
+		**/
+		Vue.directive('hello',{
+			bind: function () {//常用
+				alert("指令第一次绑定到元素上时执行，只调用一次，可执行初始化操作");
+			},
+			inserted: function () {
+				alert("指令所绑定的元素插入到DOM中时使用(辞职DOM已构建，但还未渲染，执行完后渲染DOM)");
+			},
+			update: function () {
+				alert("被绑定元素所在模板更新时执行(此时已完成更新，但DOM还未渲染)"+vm.msg);
+			},
+			componentUpdated: function () {
+				alert("被绑定元素所在模板完成一次更新周期时执行(执行完才渲染DOM)"+vm.msg);
+			},
+			unbind: function () {
+				alert("指令与元素解绑时执行，只执行一次");
+			}
+		});
+
+		//钩子函数的参数
+		Vue.directive('word',{
+			bind(el,binding){
+				console.log(el);//指令要绑定的元素,DOM对象
+				el.style.color = 'red';
+				console.log(binding);
+			}
+		});
+
+		//传入一个简单的函数,bind和update时会调用
+		Vue.directive('wps',function(){
+			alert('wps');
+		});
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				msg:'welcome to shanghai',
+				name1:'tom'
+			},
+			methods:{
+				change:function(){
+					this.msg = 'tom'
+				}
+			},
+			/**
+			* 自定义局部指令
+			**/
+			directives:{
+				focus:{
+					inserted: function (el) {
+						// 当被绑定元素插入到DOM时获得焦点
+						el.focus();
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>

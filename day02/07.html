@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>监视数据的变化:$watch</title>
+	<script src='js/vue.js'></script>
+</head>
+<body>
+	<div id="gyz">
+		<input type="text" v-model="name">
+		<h3>{{name}}</h3>
+		<hr>
+		<input type="text" v-model="age">
+		<h3>{{age}}</h3>
+		<hr>
+		<input type="text" v-model="user.name">
+		<h3>{{user.name}}</h3>
+	</div>
+	<script>
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				name:'唐伯虎',
+				age:25,
+				user:{
+					id:'001',
+					name:'tom'
+				}
+			},
+			//方式2 使用vue实例提供的watch选项
+			watch:{
+				age:(n,o)=>{
+					console.log("被修改,新值："+n+",原值:"+o);
+				},
+				user:{
+					handler:(n,o)=>{
+						console.log("被修改,新值："+n.name+",原值:"+o.name);
+					},
+					deep:true
+				}
+			}
+		});
+		
+		//方式1 使用vue实例提供的$watch方法
+		vm.$watch('name',function(n,o){
+			console.log("被修改,新值："+n+",原值:"+o);
+		});
+
+		vm.$watch('user',function(n,o){
+			console.log("被修改,新值："+n.name+",原值:"+o.name);
+		},{deep:true});
+	</script>
+</body>
+</html>

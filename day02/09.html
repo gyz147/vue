@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+	<meta charset='UTF-8'>
+	<title>练习：自定义指令</title>
+	<script src='js/vue.js'></script>
+</head>
+<style>
+	#gyz div,h2{
+		width: 50px;
+		height: 50px;
+		position: absolute;/*想要移动，绝对布局时必须的*/
+	}
+	#gyz .hello{
+		background-color: red;
+		top: 0;
+		left: 0;
+	}
+	#gyz .world{
+		background-color: blue;
+		top: 0;
+		right: 0;
+	}
+</style>
+<body>
+	<div id="gyz">
+		<div class="hello" v-drag>阿里</div>
+		<div class="world" v-drag>腾讯</div>
+		<br><br><br>
+		<h2 v-drag>gyz</h2>
+	</div>
+	<script>
+		Vue.directive('drag',function(el){
+			el.onmousedown = function(e){
+				// 获取鼠标点击的位置分别与div左边和上边界的位置
+				let x = e.clientX - el.offsetLeft;
+				let y = e.clientY - el.offsetTop;
+				// 包含再onmousedown里表示只有当鼠标点下div时才触发移动事件。
+				// 事件绑定document上时为了防止鼠标移动过快移出div而停下来
+				document.onmousemove = function(e){
+					// 获取div位置
+					el.style.left = e.clientX - x + 'px';
+					el.style.top = e.clientY - y + 'px';
+				}
+				// 停止移动
+				document.onmouseup = function(){
+					document.onmousemove = null;
+					document.onmouseup = null;
+				}
+			}
+		});
+		var vm = new Vue({
+			el:'#gyz',
+			data:{
+				msg:'welcome to shanghai',
+				name1:'tom'
+			}
+		});
+	</script>
+</body>
+</html>
