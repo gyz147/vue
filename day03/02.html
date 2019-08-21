@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>组件的分类</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="gyz">
+		<my-hello></my-hello>
+		<my-world></my-world>
+	</div>
+	<hr>
+	<div id="xyq">
+		<my-hello></my-hello>
+		<!-- 不能访问my-world -->
+		<!-- <my-world></my-world> -->
+	</div>
+	<script>
+		/**
+		 * 全局组件,可以在所有的vue实例中使用
+		 */
+		Vue.component('my-hello',{
+			template:'<h3>welcome to {{name}}</h3>',
+			// 两种方式data均可，自定义组件中的data必须是一个函数
+			// data:function(){
+			data(){
+				return {
+					name:'Tencent'
+				}
+			}
+		});
+
+		new Vue({
+			el:'#gyz',
+			/**
+			 * 局部组件，只能在当前实例中使用
+			 */
+			components:{
+				'my-world':{
+					template:'<h3>welcome to beijing</h3>'
+				}
+			}
+		});
+
+		new Vue({
+			el:'#xyq'
+		});
+	</script>
+</body>
+</html>

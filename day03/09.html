@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>路由基本用法</title>
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.min.js"></script>
+	<style>
+		.router-link-active{
+			font-size: 20px;
+			color: #ff7300;
+			text-decoration: none;
+		}
+		.active{
+			font-size: 20px;
+			color: blue;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="gyz">
+		<div>
+			<!-- 使用rout-link定义链接，默认最后变为a标签（可修改） -->
+			<router-link to="/home">主页</router-link>
+			<router-link to="/news">新闻</router-link>
+		</div>
+		<div>
+			<!-- rout-view用来显示路由的内容 -->
+			<router-view></router-view>
+		</div>
+	</div>
+	<script>
+		//1.定义相应的内容
+		let Home = {
+			template:'<h3>我是主页</h3>'
+		}
+		let News = {
+			template:'<h3>我是新闻</h3>'
+		}
+
+		//2.配置路由
+		const routes = [
+			{path:'/home',component:Home},
+			{path:'/news',component:News},
+			{path:'*',redirect:'/home'}
+		]
+
+		//3.创建路由对象
+		const router = new VueRouter({
+			routes, //简写，相当于routes:routes
+			mode:'history', //更改模式，默认为hash
+			linkActiveClass:'active'//更改活动链接的样式名称
+		});
+
+		//4.创建根组件并将路由挂载到实例上
+		new Vue({
+			el:'#gyz',
+			router //注入路由
+		});
+	</script>
+</body>
+</html>

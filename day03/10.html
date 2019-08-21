@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>路由嵌套和参数传递,结合动画</title>
+	<script src="js/vue.js"></script>
+	<script src="js/vue-router.min.js"></script>
+	<link rel="stylesheet" href="css/animate.css">
+	<style>
+		.active{
+			font-size: 20px;
+			color: #ff7300;
+			text-decoration: none;
+		}
+	</style>
+</head>
+<body>
+	<div id="gyz">
+		<div>
+			<!-- 使用rout-link定义链接，默认最后变为a标签（可修改） -->
+			<router-link to="/home">主页</router-link>
+			<router-link to="/user">用户</router-link>
+		</div>
+		<div>
+		<transition
+			enter-active-class="animated bounceInLeft"
+    		leave-active-class="animated bounceOutRight"
+		>
+			<!-- rout-view用来显示路由的内容 -->
+			<router-view></router-view>
+		</transition>
+		</div>
+		<button @click="push">添加路由</button>
+		<button @click="replace">替换路由</button>
+	</div>
+	
+	<template id="user">
+		<div>
+			<h3>用户信息</h3>
+			<ul>
+				<router-link to="/user/login?name=tom&pwd=123" tag="li">用户登录</router-link>
+				<router-link to="/user/regist/alice/456" tag="li">用户注册</router-link>
+			</ul>
+			<router-view></router-view>
+		</div>
+	</template>
+
+	<script>
+		//1.定义相应的内容
+		let Home = {
+			template:'<h3>我是主页</h3>'
+		}
+		let User = {
+			template:'#user'
+		}
+		let Login = {
+			template:'<h4>用户登录。。。获取参数:{{$route.query}},获取路径：{{$route.path}}</h4>'
+
+		}
+		let Regist = {
+			template:'<h4>用户注册。。。获取参数:{{$route.params}},获取路径：{{$route.path}}</h4>'
+		}
+
+		//2.配置路由
+		const routes = [
+			{
+				path:'/home',
+				component:Home
+			},
+			{
+				path:'/user',
+				component:User,
+				children:[
+					{
+						path:'login',
+						component:Login
+					},
+					{
+						path:'regist/:username/:password',
+						component:Regist
+					}
+				]
+			},
+			{
+				path:'*',
+				redirect:'/home'
+			}
+		]
+
+		//3.创建路由对象
+		const router = new VueRouter({
+			routes, //简写，相当于routes:routes
+			linkActiveClass:'active'//更改活动链接的样式名称
+		});
+
+		//4.创建根组件并将路由挂载到实例上
+		new Vue({
+			el:'#gyz',
+			router, //注入路由
+			methods:{
+				push(){
+					router.push({
+						path:'/home'
+					});
+				},
+				replace(){
+					router.replace({
+						path:'/user'
+					});
+				}
+			}
+		});
+	</script>
+</body>
+</html>

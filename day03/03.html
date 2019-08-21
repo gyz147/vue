@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>引用模板</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="gyz">
+		<my-hello></my-hello>
+		<my-hello></my-hello>
+	</div>
+	<template id="xyq">
+		<!-- template中必须有且只有一个根元素 -->
+		<div>
+			<h3>{{msg}}</h3>
+			<ul>
+				<li v-for="name in arr">{{name}}</li>
+			</ul>
+		</div>
+	</template>
+	<script>
+		new Vue({
+			el:'#gyz',
+			components:{
+				'my-hello':{
+					name:'yq',//指定组件的名称，默认为标签名
+					template:'#xyq',
+					data(){
+						return {
+							msg:'welcome to sha',
+							arr:['tom','mark','jack','tony']
+						} 
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>

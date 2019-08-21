@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>非父子组件间的通信</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="gyz">
+		<my-a></my-a>
+		<my-b></my-b>
+		<my-c></my-c>
+	</div>
+	<template id="a">
+		<div>
+			<h3>A组件:{{name}}</h3>
+			<button @click="send">发送数据给组件C</button>
+		</div>
+	</template>
+	<template id="b">
+		<div>
+			<h3>B组件：{{age}}</h3>
+			<button @click="send">发送数据给组件C</button>
+		</div>
+	</template>
+	<template id="c">
+		<div>
+			<h3>C组件：{{name}}</h3>
+			<h3>C组件：{{age}}</h3>
+		</div>
+	</template>
+
+	<script>
+		let bus = new Vue();
+
+		let A = {
+			template:'#a',
+			data(){
+				return {
+					name:'tom'
+				}
+			},
+			methods:{
+				send(){
+					bus.$emit('data-a',this.name);
+				}
+			}
+		}
+		let B ={
+			template:'#b',
+			data(){
+				return {
+					age:20
+				}
+			},
+			methods:{
+				send(){
+					bus.$emit('data-b',this.age);
+				}
+			}
+		}
+		let C ={
+			template:'#c',
+			data(){
+				return {
+					name:'',
+					age:0
+				}
+			},
+			mounted(){
+				bus.$on('data-a',name=>{
+					this.name = name;
+				});
+				bus.$on('data-b',age=>{
+					this.age = age;
+				});
+			}
+		}
+
+		new Vue({
+			el:'#gyz',
+			components:{
+				'my-a':A,
+				'my-b':B,
+				'my-c':C
+			}
+		});
+	</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>自定义组件</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="gyz">
+		<hello></hello>
+		<world></world>
+	</div>
+	<script>
+		/**
+		 * 方式一：先创建组件构造器，然年由组件构造器创建组件
+		 */
+		//1.创建一个组件构造器
+		 let myComponent = Vue.extend({
+		 	template:'<h3>Hello World</h3>'
+		 });
+		 //2.根据组件构造器来创建组件
+		 Vue.component('hello',myComponent);
+
+		 /**
+		  * 方式二：直接创建(推荐)
+		  */
+		  Vue.component('world',{
+		 	template:'<h3>你好 世界</h3>'
+		 });
+
+		new Vue({
+			el:'#gyz',
+			data:{
+
+			}
+		});
+	</script>
+</body>
+</html>

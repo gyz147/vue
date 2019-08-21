@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>动态组件</title>
+	<script src="js/vue.js"></script>
+</head>
+<body>
+	<div id="gyz">
+		<button @click="flag='my-hello'">显示hello组件</button>
+		<button @click="flag='my-world'">显示world组件</button>
+		<div>
+			<!-- 使用keep-alive可以缓存非活动组件，避免重新渲染 -->
+			<keep-alive>
+				<component :is="flag"></component>
+			</keep-alive>
+		</div>
+	</div>
+	<script>
+		new Vue({
+			el:'#gyz',
+			data:{
+				flag:"my-hello"
+			},
+			components:{
+				'my-hello':{
+					template:'<h3>我是hello组件{{x}}</h3>',
+					data(){
+						return {
+							x:Math.random()
+						}
+					}
+				},
+				'my-world':{
+					template:'<h3>我是world组件{{y}}</h3>',
+					data(){
+						return {
+							y:Math.random()
+						}
+					}
+				}
+			}
+		});
+	</script>
+</body>
+</html>
